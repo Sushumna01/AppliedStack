@@ -1,15 +1,22 @@
+
 const mongoose = require("mongoose");
 
 const applicationSchema = new mongoose.Schema({
 
     companyName: {
         type: String,
-        required: true
+        required: true,
+        trim: true,
+        minlength: 2,
+        maxlength: 100
     },
 
     role: {
         type: String,
-        required: true
+        required: true,
+        trim: true,
+        minlength: 2,
+        maxlength: 100
     },
 
     applicationDate: {
@@ -19,7 +26,16 @@ const applicationSchema = new mongoose.Schema({
 
     status: {
         type: String,
-        required: true
+        required: true,
+        trim: true,
+        enum: [
+            "Applied",
+            "Assessment",
+            "Interview",
+            "Offer",
+            "Rejected",
+            "Withdrawn"
+        ]
     },
 
     deadline: {
@@ -35,11 +51,15 @@ const applicationSchema = new mongoose.Schema({
     },
 
     jobLink: {
-        type: String
+        type: String,
+        trim: true,
+        match: /^https?:\/\/.+/
     },
 
     notes: {
-        type: String
+        type: String,
+        trim: true,
+        maxlength: 1000
     }
 
 });

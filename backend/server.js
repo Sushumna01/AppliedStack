@@ -49,6 +49,88 @@ app.post("/api/applications", async (req, res) => {
 
 });
 
+app.get("/api/applications", async (req, res) => {
+
+    try {
+
+        const applications = await Application.find();
+
+        res.json({
+            applications: applications
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: "Failed to fetch applications",
+            error: error.message
+        });
+
+    }
+
+});
+
+app.put("/api/applications/:id", async (req, res) => {
+
+    try {
+
+        const application = await Application.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true }
+        );
+
+        if (!application) {
+            return res.status(404).json({
+                message: "Application not found"
+            });
+        }
+
+        res.json({
+            message: "Application updated successfully!",
+            application: application
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: "Failed to update application",
+            error: error.message
+        });
+
+    }
+
+});
+
+app.delete("/api/applications/:id", async (req, res) => {
+
+    try {
+
+        const application = await Application.findByIdAndDelete(
+            req.params.id
+        );
+
+        if (!application) {
+            return res.status(404).json({
+                message: "Application not found"
+            });
+        }
+
+        res.json({
+            message: "Application deleted successfully!"
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: "Failed to delete application",
+            error: error.message
+        });
+
+    }
+
+});
+
 app.listen(5000, () => {
     console.log("Server running on http://localhost:5000");
 });
