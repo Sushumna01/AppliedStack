@@ -32,6 +32,7 @@ const applicationSchema = new mongoose.Schema({
             "Applied",
             "Assessment",
             "Interview",
+            "Selected",
             "Offer",
             "Rejected",
             "Withdrawn"
