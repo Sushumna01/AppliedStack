@@ -3,7 +3,10 @@ const AppError = require("../utils/AppError");
 
 const createApplication = async (req, res, next) => {
     try {
-        const application = await Application.create(req.body);
+        const application = await Application.create({
+            ...req.body,
+            user: req.user.id
+        });
 
         res.status(201).json(application);
 
@@ -14,7 +17,9 @@ const createApplication = async (req, res, next) => {
 
 const getApplications = async (req, res, next) => {
     try {
-        const applications = await Application.find();
+        const applications = await Application.find({
+            user: req.user.id
+        });
 
         res.status(200).json({
             applications: applications
@@ -27,10 +32,16 @@ const getApplications = async (req, res, next) => {
 
 const updateApplication = async (req, res, next) => {
     try {
-        const application = await Application.findByIdAndUpdate(
-            req.params.id,
+        const application = await Application.findOneAndUpdate(
+            {
+                _id: req.params.id,
+                user: req.user.id
+            },
             req.body,
-            { new: true, runValidators: true }
+            {
+                new: true,
+                runValidators: true
+            }
         );
 
         if (!application) {
@@ -49,9 +60,10 @@ const updateApplication = async (req, res, next) => {
 
 const deleteApplication = async (req, res, next) => {
     try {
-        const application = await Application.findByIdAndDelete(
-            req.params.id
-        );
+        const application = await Application.findOneAndDelete({
+            _id: req.params.id,
+            user: req.user.id
+        });
 
         if (!application) {
             return next(new AppError("Application not found", 404));

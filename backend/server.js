@@ -2,7 +2,7 @@ require("dotenv").config();
 const errorMiddleware = require("./middleware/errorMiddleware");
 const applicationRoutes = require("./routes/applicationRoutes");
 const authRoutes = require("./routes/authRoutes");
-
+const { protect } = require("./middleware/authMiddleware");
 const express = require("express");
 const mongoose = require("mongoose");
 
@@ -10,6 +10,14 @@ const app = express();
 app.use(express.json());
 app.use("/api", applicationRoutes);
 app.use("/api/auth", authRoutes);
+
+app.get("/api/auth/test", protect, (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Authentication successful",
+    userId: req.user.id
+  });
+});
 
 app.use(errorMiddleware);
 
