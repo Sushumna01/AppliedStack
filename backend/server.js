@@ -1,6 +1,7 @@
 require("dotenv").config();
 const errorMiddleware = require("./middleware/errorMiddleware");
 const applicationRoutes = require("./routes/applicationRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -8,6 +9,8 @@ const mongoose = require("mongoose");
 const app = express();
 app.use(express.json());
 app.use("/api", applicationRoutes);
+app.use("/api/auth", authRoutes);
+
 app.use(errorMiddleware);
 
 mongoose.connect(process.env.MONGO_URI)
