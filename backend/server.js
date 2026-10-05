@@ -1,3 +1,4 @@
+const cors = require("cors");
 require("dotenv").config();
 const errorMiddleware = require("./middleware/errorMiddleware");
 const applicationRoutes = require("./routes/applicationRoutes");
@@ -7,6 +8,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const app = express();
+app.use(cors({
+    origin: "http://localhost:5173"
+}));
 app.use(express.json());
 app.use("/api", applicationRoutes);
 app.use("/api/auth", authRoutes);

@@ -1,0 +1,9 @@
+nav {
+  padding: 20px 40px;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+}
+
+nav h2 {
+  margin: 0;
+}
